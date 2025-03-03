@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 // Middleware https://firstbitecakeshop.vercel.app'
-app.use(cors({ origin: "https://application-generator-ten.vercel.app", credentials: true })); // ✅ Allow cookies
+app.use(cors({ origin: "https://application-generator-ten-seven.vercel.app", credentials: true })); // ✅ Allow cookies
 app.use(express.json());
 app.use(cookieParser()); // ✅ Enable cookie parsing
 
