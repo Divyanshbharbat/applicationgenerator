@@ -9,13 +9,15 @@ import cookieParser from "cookie-parser"; // ✅ Import cookie-parser
 dotenv.config();
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
 // Middleware https://firstbitecakeshop.vercel.app'
-app.use(cors({ origin: "https://applicationgenerator.vercel.app", credentials: true })); // ✅ Allow cookies
+ app.use(cors({ origin: "https://applicationgenerator.vercel.app",methods:"GET,POST,PUT,DELETE", credentials: true })); // ✅ Allow cookies
+// app.use(cors({ origin: "https://localhost:5174", credentials: true })); // ✅ Allow cookies
 app.use(express.json());
 app.use(cookieParser()); // ✅ Enable cookie parsing
 
 // MongoDB Connection
-console.log(process.env.VITE_URL)
+
  mongoose.connect(process.env.VITE_URL)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
@@ -33,7 +35,7 @@ const User = mongoose.model("User", userSchema);
 
 // ✅ Login Route (Set Cookie)
 app.post("/login", async (req, res) => {
-  try {console.log(req.body)
+  try {
     const { uid, password } = req.body;
     const user = await User.findOne({ uid });
 
@@ -48,7 +50,7 @@ app.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ uid: user.uid }, "divyansh", { expiresIn: "1h" });
-console.log(token)
+
 
     // ✅ Send token as HTTP-only cookie
 
@@ -64,7 +66,7 @@ app.post("/signup", async (req, res) => {
 
     // Check if user exists
     const existingUser = await User.findOne({ uid });
-    console.log(existingUser)
+   
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
@@ -79,6 +81,7 @@ app.post("/signup", async (req, res) => {
 
     res.status(201).json({ message: "success" });
   } catch (error) {
+    console.error("error",error)
     res.status(500).json({ message: "fail", error: error.message });
   }
 });

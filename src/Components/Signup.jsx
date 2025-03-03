@@ -12,7 +12,7 @@ export default function Signup() {
   } = useForm();
 let navigate=useNavigate()
   const onSubmit = async (data) => {
-    console.log(data);
+    
     await axios.post(`${import.meta.env.VITE_FRONT}/signup`, data).then((res)=>{
       if(res.data.message=="success")
       { 
