@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-import "./Signup.css";
+import "./signup.css";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {toast,Toaster} from 'react-hot-toast'
