@@ -15,8 +15,7 @@ app.use(express.json());
 app.use(cookieParser()); // ✅ Enable cookie parsing
 
 // MongoDB Connection
-// mongoose.connect("mongodb+srv://bharbatdivyansh1:divyansh23005045@cluster0.u9p8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-mongoose.connect("mongodb://localhost:27017")
+ mongoose.connect("mongodb+srv://bharbatdivyansh1:divyansh23005045@cluster0.u9p8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
