@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 // Middleware https://firstbitecakeshop.vercel.app'
- app.use(cors({ origin: "https://applicationgenerator.vercel.app",methods:"GET,POST,PUT,DELETE", credentials: true })); // ✅ Allow cookies
+ app.use(cors({ origin: "https://divyanshapplicationgenerator.vercel.app",methods:"GET,POST,PUT,DELETE", credentials: true })); // ✅ Allow cookies
 // app.use(cors({ origin: "https://localhost:5174", credentials: true })); // ✅ Allow cookies
 app.use(express.json());
 app.use(cookieParser()); // ✅ Enable cookie parsing
