@@ -58,7 +58,7 @@ export default function EventParticipationForm() {
   // Sending request with Authorization header
  const taketoken=async()=>
  {
-  await axios.get("https://application-1-cqzu.onrender.com/user", {
+  await axios.get(`${import.meta.env.VITE_FRONT}/user`, {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(response=>

@@ -10,12 +10,13 @@ dotenv.config();
 const app = express();
 
 // Middleware https://firstbitecakeshop.vercel.app'
-app.use(cors({ origin: "https://applicationgenerator.vercel.app", credentials: true })); // ✅ Allow cookies
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); // ✅ Allow cookies
 app.use(express.json());
 app.use(cookieParser()); // ✅ Enable cookie parsing
 
 // MongoDB Connection
- mongoose.connect("mongodb+srv://bharbatdivyansh1:divyansh23005045@cluster0.u9p8i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+console.log(process.env.VITE_URL)
+ mongoose.connect(process.env.VITE_URL)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -113,5 +114,5 @@ app.get("/user", verifyToken,async (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
