@@ -15,7 +15,7 @@ const onSubmit = async (data) => {
   const loadingToast = toast.loading("Logging in...");
 
   try {
-    const res = await axios.post("http://localhost:5000/login", data);
+    const res = await axios.post("https://application-1-cqzu.onrender.com/login", data);
     toast.dismiss(loadingToast); // Remove loading toast
 
     if (res.data.message === "success") {

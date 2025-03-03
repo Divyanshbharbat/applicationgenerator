@@ -57,7 +57,7 @@ export default function HealthIssueForm() {
   // Sending request with Authorization header
  const taketoken=async()=>
  {
-  await axios.get("http://localhost:5000/user", {
+  await axios.get("https://application-1-cqzu.onrender.com/user", {
     headers: { Authorization: `Bearer ${token}` }
   })
   .then(response=>

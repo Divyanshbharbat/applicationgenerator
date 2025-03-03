@@ -9,8 +9,8 @@ import cookieParser from "cookie-parser"; // ✅ Import cookie-parser
 dotenv.config();
 const app = express();
 
-// Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // ✅ Allow cookies
+// Middleware https://firstbitecakeshop.vercel.app'
+app.use(cors({ origin: "https://application-generator.varcel.app", credentials: true })); // ✅ Allow cookies
 app.use(express.json());
 app.use(cookieParser()); // ✅ Enable cookie parsing
 

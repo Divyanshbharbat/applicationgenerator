@@ -13,7 +13,7 @@ export default function Signup() {
 let navigate=useNavigate()
   const onSubmit = async (data) => {
     console.log(data);
-    await axios.post("http://localhost:5000/signup", data).then((res)=>{
+    await axios.post("https://application-1-cqzu.onrender.com/signup", data).then((res)=>{
       if(res.data.message=="success")
       { 
        
