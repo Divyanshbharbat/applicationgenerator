@@ -1,0 +1,128 @@
+/* home.css */
+
+/* Center content */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  background-color: #f4f4f4;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Home Page Title */
+.form-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Parent container for buttons */
+.parent {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between buttons */
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.button {
+  padding: 15px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+  min-width: 250px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+.button {
+  background: #333333;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #dd1818, #333333);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #dd1818, #333333); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+#btn2{
+  margin-bottom: 25vh;
+  background: #B2FEFA;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #0ED2F7, #B2FEFA);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #0ED2F7, #B2FEFA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+*{
+  font-family: "Poppins";
+}
+
+/* Forms */
+.form-container {
+  width: 100%;
+  max-width: 400px; /* Limit form width */
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* Labels */
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Inputs and Select Dropdown */
+.form-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Submit Button */
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  .parent {
+    flex-direction: column; /* Stack buttons vertically */
+  }
+
+  .button {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  .form-container {
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  .form-input, .submit-button {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
