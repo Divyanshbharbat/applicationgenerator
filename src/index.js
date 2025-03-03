@@ -4,23 +4,25 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser"; // ✅ Import cookie-parser
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
-// Middleware https://firstbitecakeshop.vercel.app'
- app.use(cors({ origin: "https://divyanshapplicationgenerator.vercel.app",methods:"GET,POST,PUT,DELETE", credentials: true })); // ✅ Allow cookies
-// app.use(cors({ origin: "https://localhost:5174", credentials: true })); // ✅ Allow cookies
+app.use(cors({ 
+  origin: "https://divyanshapplicationgenerator.vercel.app", 
+  // origin:"http://localhost:5173",
+  methods: "GET,POST,PUT,DELETE", 
+  credentials: true 
+}));
 app.use(express.json());
-app.use(cookieParser()); // ✅ Enable cookie parsing
+app.use(cookieParser());
 
 // MongoDB Connection
-
- mongoose.connect(process.env.VITE_URL)
+mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+  .catch(err => console.log("MongoDB Error:", err));
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -33,87 +35,69 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model("User", userSchema);
 
-// ✅ Login Route (Set Cookie)
+// JWT Secret Key
+const JWT_SECRET = process.env.JWT_SECRET || "divyansh";
+
+// Login Route (Set HTTP-only Cookie)
 app.post("/login", async (req, res) => {
   try {
     const { uid, password } = req.body;
     const user = await User.findOne({ uid });
 
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+    if (!user) return res.status(401).json({ error: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-   
-    if (!isMatch) {
-      return res.status(401).json({ error: "Invalid password" });
-    }
+    console.log(isMatch)
+    if (!isMatch) return res.status(401).json({ error: "Invalid password" });
 
-    const token = jwt.sign({ uid: user.uid }, "divyansh", { expiresIn: "1h" });
+    const token = jwt.sign({ uid: user.uid }, JWT_SECRET, { expiresIn: "1h" });
 
 
-    // ✅ Send token as HTTP-only cookie
-
-    
-    res.json({ message: "success" ,token:token});
+    res.json({ message: "success", token });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
+
+// Signup Route
 app.post("/signup", async (req, res) => {
   try {
     const { name, roll, year, branch, uid, password } = req.body;
-
-    // Check if user exists
     const existingUser = await User.findOne({ uid });
-   
-    if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
 
-    // Hash Password
+    if (existingUser) return res.status(400).json({ message: "User already exists" });
+
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create New User
     const newUser = new User({ name, roll, year, branch, uid, password: hashedPassword });
-    
-    let y=await newUser.save();
-    
+    let t=await newUser.save();
 
     res.status(201).json({ message: "success" });
   } catch (error) {
-    console.error("error",error)
-    res.status(500).json({ message: "fail", error: error.message });
+    console.error("Signup Error:", error);
+    res.status(500).json({ message: "Fail", error: error.message });
   }
 });
 
+// Token Verification Middleware
 const verifyToken = (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Unauthorized: No token provided" });
-    }
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Unauthorized: No token provided" });
 
-    // Extract token
-    const token = authHeader.split(" ")[1];
-
-    // Verify token
-    jwt.verify(token, "divyansh", (err, decoded) => {
-      if (err) {
-        return res.status(403).json({ message: "Forbidden: Invalid token" });
-      }
-      req.user = decoded; // Store decoded user data in request
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) return res.status(403).json({ message: "Forbidden: Invalid token" });
+      req.user = decoded;
       next();
     });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-// ✅ Route to Get User Data from Token
-app.get("/user", verifyToken,async (req, res) => {
- 
- let t= await User.findOne({"id":req.user.id})
- 
-  res.json({ message: "Token verified", "user": t });
+
+// Get User Data from Token
+app.get("/user", verifyToken, async (req, res) => {
+  const user = await User.findOne({ uid: req.user.uid });
+  res.json({ message: "Token verified", user });
 });
 
 // Start Server
