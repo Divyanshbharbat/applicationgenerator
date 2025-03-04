@@ -11,7 +11,8 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin:"https://divyanshapplicationgenerator.vercel.app",// Update with your frontend URL
+   origin:"https://divyanshapplicationgenerator.vercel.app",// Update with your frontend URL
+  
   methods: "GET,POST,PUT,DELETE",
   credentials: true, // Allow cookies to be sent
 }));
@@ -72,14 +73,14 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign({ uid: user.uid }, JWT_SECRET, { expiresIn: "1h" });
 
     // ✅ Set HTTP-only cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true, // Set to `false` for development, `true` for production (HTTPS)
-      sameSite: "Strict",
-      maxAge: 3600000, // 1 hour
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: true, // Set to `false` for development, `true` for production (HTTPS)
+    //   sameSite: "Strict",
+    //   maxAge: 3600000, // 1 hour
+    // });
 
-    res.json({ message: "success", user });
+    res.json({ message: "success", token });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
