@@ -52,21 +52,22 @@ ${userData.name}
 export default function HealthIssueForm() {
   const [userData, setUserData] = useState({});
 
-  const token = localStorage.getItem("cookie");
+
  
   // Sending request with Authorization header
  const taketoken=async()=>
- {
+ {  const token = localStorage.getItem("cookie");
+  
   await axios.get(`${import.meta.env.VITE_FRONT}/user`, {
+    withCredentials: true, // ✅ Correct Placement
     headers: { Authorization: `Bearer ${token}` }
   })
+  
   .then(response=>
   {
 setUserData(response.data.user)
   }
-  )
-  
-  .catch(error => console.error("Error:", error));
+  ).catch(error => console.error("Error:", error));
  }
  useEffect(()=>
 {
