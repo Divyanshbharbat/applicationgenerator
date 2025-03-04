@@ -11,10 +11,11 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ 
-  origin: "https://divyanshapplicationgenerator.vercel.app", 
+
   // origin:"http://localhost:5173",
+  origin:"https://divyanshapplicationgenerator.vercel.app",
   methods: "GET,POST,PUT,DELETE", 
-  credentials: true 
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
